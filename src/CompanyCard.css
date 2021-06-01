@@ -1,0 +1,22 @@
+.CompanyCard-card {
+    padding: 3%;
+    color: black;
+    position: relative;
+}
+
+.CompanyCard {
+    margin: 2%;
+}
+
+.CompanyCard:hover{
+    box-shadow: 10px 5px 5px rgba(37, 37, 37, 0.507);
+}
+
+.CompanyCard-card:hover {
+    color: rgb(65, 65, 153);
+}
+
+.CompanyCard-logo {
+    position: absolute;
+    right: 3%;
+}

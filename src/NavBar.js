@@ -12,8 +12,8 @@ import { Navbar, Nav, Link, NavDropdown, Brand } from "react-bootstrap";
  * App --> NavBar
  */
 function NavBar({ currentUser }) {
-
-  //comment out currentUser if condition to demo experience for logged in user
+  //TODO replace with actual current user late
+  currentUser = "user";
 
   return (
     < Navbar bg='dark' expand="lg" variant="dark" className="justify-content-between">
