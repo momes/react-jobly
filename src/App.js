@@ -5,19 +5,29 @@ import NavBar from './NavBar';
 import Routes from './Routes';
 import JoblyApi from './api';
 
+/** App
+ * 
+ * Props:
+ * - none
+ * State:
+ * - currentUser: object
+ * - isLoadingApp: boolean
+ * 
+ * App --> NavBar, Routes
+ */
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoadingApp, setIsLoadingApp] = useState(false);
 
   function getUser(username) {
     //use token to get user obj
-    setCurrentUser(user)
+    setCurrentUser(username);
   }
 
   return (
     <div className="App">
-      <NavBar currentUser={currentUser} />
       <BrowserRouter>
+        <NavBar currentUser={currentUser} />
         <Routes currentUser={currentUser} />
       </BrowserRouter>
     </div>
