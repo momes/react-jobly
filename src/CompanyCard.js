@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './CompanyCard.css';
 
 function CompanyCard({ company }) {

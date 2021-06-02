@@ -81,6 +81,13 @@ class JoblyApi {
     return res.token;
   }
 
+  /** Apply to Job. */
+
+  static async applyToJob(username, jobId) {
+    let res = await this.request(`users/${username}/jobs/${jobId}`, {}, "post");
+    return res;
+  }
+
 }
 
 // for now, put token ("testuser" / "password" on class)
