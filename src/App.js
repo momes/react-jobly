@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import NavigationBar from './NavigationBar';
 import Routes from './Routes';
 import JoblyApi from './api';
+import Error from './Error';
 
 
 /** App
@@ -22,20 +23,20 @@ import JoblyApi from './api';
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoadingApp, setIsLoadingApp] = useState(true);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState(null);
 
   useEffect(function () {
     console.log("app component effect ran");
-    async function getTestUser() {
+    async function fetchTestUser() {
       try {
         let user = await JoblyApi.getUser('testuser');
-        setCurrentUser(currUser => user);
+        setCurrentUser(user);
         setIsLoadingApp(false);
       } catch (err) {
         setErrors(err);
       }
     }
-    getTestUser();
+    fetchTestUser();
   }, []);
 
   function updateUserAfterJobApp(jobId) {
@@ -48,6 +49,7 @@ function App() {
   console.log("app thinks current user is", currentUser);
   return (
     <div>
+      {errors && errors.map(e => <Error error={e}/>)}
       {!isLoadingApp && (<div className="App">
         <BrowserRouter>
           <NavigationBar currentUser={currentUser} />

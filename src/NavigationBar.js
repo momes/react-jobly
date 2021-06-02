@@ -1,19 +1,16 @@
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Link, NavDropdown, Brand } from "react-bootstrap";
 
 /** NavigationBar
  * 
  * Props:
- * - currentUser: uncertain if object or string for now, may just pass in username
+ * - currentUser {}
  * State:
  * 
  * App --> NavigationBar
  */
 function NavigationBar({ currentUser }) {
-  //TODO replace with actual current user late
-  currentUser = "user";
 
   return (
     < Navbar bg='dark' expand="lg" variant="dark" className="justify-content-between">
@@ -22,7 +19,7 @@ function NavigationBar({ currentUser }) {
         <Nav.Link as={NavLink} to="/companies">Companies</Nav.Link>
         <Nav.Link as={NavLink} to="/jobs">Jobs</Nav.Link>
         <Nav.Link as={NavLink} to="/profile">Profile</Nav.Link>
-        <Nav.Link as={NavLink} to="/logout">Logout</Nav.Link>
+        <Nav.Link as={NavLink} to="/logout">Logout {currentUser.username}</Nav.Link>
       </div>}
       {!currentUser && <div className="navbar-nav ml-auto">
         <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
@@ -33,7 +30,3 @@ function NavigationBar({ currentUser }) {
 }
 
 export default NavigationBar;
-
-//change divs to nav tags
-//specific class names
-//potentially lowercase the B

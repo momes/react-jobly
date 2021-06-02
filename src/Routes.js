@@ -16,25 +16,21 @@ import ProfileForm from "./ProfileForm";
  * - currentUser {}
  * - addJobApp()
  * 
- * State:
- * - isAuthorized
+ * App -> Routes -> Homepage
+ *               -> CompanyList
+ *  *            -> CompanyDetail
+ *  *            -> JobList
+ *  *            -> ProfileForm
+ *  *            -> LoginForm
+ *  *            -> SignUpForm
  * 
  */
 function Routes({ currentUser, addJobApp }) {
-  //should the state default to current user then change to a boolean?
-  const [isAuthorized, setIsAuthorized] = useState(currentUser);
   console.log("routes thinks current user is", currentUser);
-  console.log("routes thinks isAuthorized is", isAuthorized);
-
-  useEffect(function(){
-    if (currentUser){
-      setIsAuthorized(true);
-    }
-  }, [currentUser]);
 
   return (
-    <Switch>
-      {isAuthorized && <Switch>
+    <>
+      {currentUser && <Switch>
         <Route exact path="/">
           <Homepage currentUser={currentUser} />
         </Route>
@@ -53,7 +49,7 @@ function Routes({ currentUser, addJobApp }) {
         <Redirect to="/" />
       </Switch>}
 
-      {!isAuthorized && <Switch>
+      {!currentUser && <Switch>
         <Route exact path="/">
           <Homepage currentUser={currentUser} />
         </Route>
@@ -66,7 +62,7 @@ function Routes({ currentUser, addJobApp }) {
         <Redirect to="/" />
       </Switch>
       }
-    </Switch>);
+    </>);
 }
 
 export default Routes;

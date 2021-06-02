@@ -1,7 +1,20 @@
 import { useState } from "react";
 
-function SearchBar({ search }) {
-  const [searchTerm, setSearchTerm] = useState("");
+
+/**SearchBar Component
+ * 
+ * Props: 
+ * - search()
+ * - initialSearchTerm ""
+ * 
+ * State:
+ * - searchTerm: ""
+ * 
+ * JobList -> SearchBar
+ * CompanyList -> SearchBar
+ */
+function SearchBar({ search, initialSearchTerm }) {
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -9,7 +22,7 @@ function SearchBar({ search }) {
   }
 
   function handleChange(evt) {
-    setSearchTerm(currSearchTerm => (evt.target.value));
+    setSearchTerm(evt.target.value);
   }
   return (
   <form className="SearchBar" onSubmit={handleSubmit}>

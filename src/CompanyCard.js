@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './CompanyCard.css';
 
+
+/**
+ * CompanyCard Component
+ * 
+ * Props:
+ * - company {}
+ * 
+ * CompanyList -> CompanyCard
+ */
 function CompanyCard({ company }) {
   const { name, handle, description, logoUrl } = company;
 

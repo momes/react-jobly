@@ -2,38 +2,44 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import JoblyApi from "./api";
 import JobCard from "./JobCard";
+import Error from "./Error";
 
 /** CompanyDetail
  * 
  * Props:
- * State:
+ * - currentUser {}
+ * - addJobApp()
  * 
- * App --> NavBar, Routes --> CompanyList --> CompanyCard --> CompanyDetail
+ * State:
+ * - company {}
+ * - isLoadingCompany boolean
+ * - error null or []
+ * 
+ * Routes --> CompanyDetail
  */
 
 function CompanyDetail({ currentUser, addJobApp }) {
 
   const [company, setCompany] = useState({});
   const [isLoadingCompany, setIsLoadingCompany] = useState(true);
-  const [error, setError] = useState(null);
-
+  const [errors, setErrors] = useState(null);
 
   const { handle } = useParams();
   console.log("companydetail thinks param is", handle);
   console.log("company is", company);
 
-  useEffect(function () {
+  useEffect(function setCompanyOrError() {
     console.log("company use effect")
-    async function getCompany() {
+    async function fetchCompany() {
       try {
         let company = await JoblyApi.getCompany(handle);
         setCompany(company);
         setIsLoadingCompany(false);
       } catch (err) {
-        setError(err);
+        setErrors(err);
       }
     }
-    getCompany();
+    fetchCompany();
   }, [handle]);
 
   if (isLoadingCompany) {
@@ -42,9 +48,9 @@ function CompanyDetail({ currentUser, addJobApp }) {
     )
   }
 
-
   return (
     <div className="CompanyDetail">
+      {errors && errors.map(e => <Error error={e}/>)}
       <h2>{company.name}</h2>
       <p>{company.description}</p>
       {company.jobs.map(job => <JobCard
@@ -58,5 +64,3 @@ function CompanyDetail({ currentUser, addJobApp }) {
 
 export default CompanyDetail;
 
-
-//

@@ -3,29 +3,45 @@ import { useState, useEffect } from "react";
 import JoblyApi from "./api";
 import SearchBar from "./SearchBar";
 import CompanyCard from "./CompanyCard";
+import Error from "./Error";
 
+/** CompanyList Component
+ * 
+ * Props:
+ * - currentUser {}
+ * 
+ * State:
+ * - isLoadingCompanyList: boolean
+ * - companies: []
+ * - errors: null or []
+ * - searchTerm: ""
+ * 
+ * Routes -> CompanyList -> SearchBar
+ *                       -> CompanyCard
+ */
 function CompanyList({currentUser}) {
   const [isLoadingCompanyList, setIsLoadingCompanyList] = useState(true);
   const [companies, setCompanies] = useState([]);
-  const [error, setError] = useState(null);
-  const [query, setQuery] = useState("");
+  const [errors, setErrors] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(function() {
     console.log("companylist use effect")
     async function getCompanies() {
       try {
-        let companies = await JoblyApi.getCompanies(query);
+        let companies = await JoblyApi.getCompanies(searchTerm);
         setCompanies(companies);
         setIsLoadingCompanyList(false);
       } catch (err) {
-        setError(err);
+        setErrors(err);
       }
     }
     getCompanies();
-  }, [query]);
+  }, [searchTerm]);
 
   function search(searchTerm) {
-    setQuery(searchTerm);
+    setIsLoadingCompanyList(true);
+    setSearchTerm(searchTerm);
   }
 
   if (isLoadingCompanyList) {
@@ -36,11 +52,16 @@ function CompanyList({currentUser}) {
 
   return (
   <div className="CompanyList">
-    <SearchBar search={search}/>
+    {errors && errors.map(e => <Error error={e}/>)}
+    <SearchBar search={search} initialSearchTerm={searchTerm}/>
     <div className="CompanyList-list">
-      {companies.map(company => <CompanyCard company={company} currentUser={currentUser}/>)}
-      </div>
+      {companies.length > 0
+        ? companies.map(company => 
+            <CompanyCard company={company} 
+                         currentUser={currentUser}/>)
+        : <p>No results found.</p>}
     </div>
+  </div>
   );
 }
 

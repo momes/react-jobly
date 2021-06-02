@@ -5,15 +5,27 @@ import './CompanyCard.css';
 import JoblyApi from "./api";
 import './JobCard.css'
 
-/**
+/** JobCard Component
  * 
+ * Props:
+ * - currentUser {}
+ * - job {}
+ * - addJobApp()
  * 
+ * State:
+ * - isLoadingJobCard: boolean
+ * - hasApplied: boolean
+ * - submittedApplication: boolean
+ * - errors: null or []
  * 
+ * JobList -> JobCard
  */
 function JobCard({ currentUser, job, addJobApp }) {
 
   const [isLoadingJobCard, setIsLoadingJobCard] = useState(true);
+  //use currentUser.applications to set hasApplied state default
   const [hasApplied, setHasApplied] = useState();
+  //change name isSubmitted?
   const [submittedApplication, setSubmittedApplication] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -59,15 +71,15 @@ function JobCard({ currentUser, job, addJobApp }) {
         <Card.Title className="justify-content-between text-left">
           <b>{job.title}</b>
         </Card.Title>
-        <div className="row">
         <Card.Body className="text-left">
             <p>Salary: {job.salary}</p>
             <p>Equity: {job.equity}</p>
           <div className="JobCard-button">
-            {hasApplied ? <Button disabled>Applied</Button> : <Button onClick={handleApply}>Apply</Button>}
+            {hasApplied 
+              ? <Button disabled>Applied</Button> 
+              : <Button onClick={handleApply}>Apply</Button>}
           </div>
         </Card.Body>
-        </div>
       </Card>
   );
 
