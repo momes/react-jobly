@@ -8,9 +8,20 @@ import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import ProfileForm from "./ProfileForm";
 
-function Routes({ currentUser, addJobApp }) {
 
-  //should routes have an isloading???
+/**
+ * Routes Component
+ * 
+ * Props:
+ * - currentUser {}
+ * - addJobApp()
+ * 
+ * State:
+ * - isAuthorized
+ * 
+ */
+function Routes({ currentUser, addJobApp }) {
+  //should the state default to current user then change to a boolean?
   const [isAuthorized, setIsAuthorized] = useState(currentUser);
   console.log("routes thinks current user is", currentUser);
   console.log("routes thinks isAuthorized is", isAuthorized);
@@ -39,6 +50,7 @@ function Routes({ currentUser, addJobApp }) {
         <Route exact path="/profile">
           <ProfileForm currentUser={currentUser} />
         </Route>
+        <Redirect to="/" />
       </Switch>}
 
       {!isAuthorized && <Switch>

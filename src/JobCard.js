@@ -3,6 +3,7 @@ import { Card, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import './CompanyCard.css';
 import JoblyApi from "./api";
+import './JobCard.css'
 
 /**
  * 
@@ -54,18 +55,20 @@ function JobCard({ currentUser, job, addJobApp }) {
   }
 
   return (
-    <div className="JobCard">
-      <Card className="JobCard-card">
+      <Card className="JobCard">
         <Card.Title className="justify-content-between text-left">
           <b>{job.title}</b>
         </Card.Title>
+        <div className="row">
         <Card.Body className="text-left">
-          <p>Salary: {job.salary}</p>
-          <p>Equity: {job.equity}</p>
-          {hasApplied ? <Button disabled>Applied</Button> : <Button onClick={handleApply}>Apply</Button>}
+            <p>Salary: {job.salary}</p>
+            <p>Equity: {job.equity}</p>
+          <div className="JobCard-button">
+            {hasApplied ? <Button disabled>Applied</Button> : <Button onClick={handleApply}>Apply</Button>}
+          </div>
         </Card.Body>
+        </div>
       </Card>
-    </div>
   );
 
 }

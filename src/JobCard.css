@@ -1,0 +1,17 @@
+.JobCard {
+    margin: 2% 5% 2% 5%;
+    padding: 3%;
+    color: black;
+    position: relative;
+}
+
+.JobCard:hover{
+    box-shadow: 10px 5px 5px rgba(37, 37, 37, 0.507);
+    color: rgb(65, 65, 153);
+}
+
+
+.JobCard-button {
+    position: absolute;
+    right: 3%;
+}

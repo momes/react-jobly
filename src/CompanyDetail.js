@@ -46,6 +46,7 @@ function CompanyDetail({ currentUser, addJobApp }) {
   return (
     <div className="CompanyDetail">
       <h2>{company.name}</h2>
+      <p>{company.description}</p>
       {company.jobs.map(job => <JobCard
         currentUser={currentUser}
         job={job}
