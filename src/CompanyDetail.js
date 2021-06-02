@@ -11,7 +11,7 @@ import JobCard from "./JobCard";
  * App --> NavBar, Routes --> CompanyList --> CompanyCard --> CompanyDetail
  */
 
-function CompanyDetail({currentUser}) {
+function CompanyDetail({ currentUser, addJobApp }) {
 
   const [company, setCompany] = useState({});
   const [isLoadingCompany, setIsLoadingCompany] = useState(true);
@@ -22,7 +22,7 @@ function CompanyDetail({currentUser}) {
   console.log("companydetail thinks param is", handle);
   console.log("company is", company);
 
-  useEffect(function() {
+  useEffect(function () {
     console.log("company use effect")
     async function getCompany() {
       try {
@@ -46,7 +46,11 @@ function CompanyDetail({currentUser}) {
   return (
     <div className="CompanyDetail">
       <h2>{company.name}</h2>
-      {company.jobs.map(job => <JobCard currentUser={currentUser} job={job}/>)}
+      {company.jobs.map(job => <JobCard
+        currentUser={currentUser}
+        job={job}
+        addJobApp={addJobApp}
+      />)}
     </div>
   );
 }

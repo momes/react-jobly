@@ -4,7 +4,7 @@ import JoblyApi from "./api";
 import SearchBar from "./SearchBar";
 import CompanyCard from "./CompanyCard";
 
-function CompanyList() {
+function CompanyList({currentUser}) {
   const [isLoadingCompanyList, setIsLoadingCompanyList] = useState(true);
   const [companies, setCompanies] = useState([]);
   const [error, setError] = useState(null);
@@ -38,7 +38,7 @@ function CompanyList() {
   <div className="CompanyList">
     <SearchBar search={search}/>
     <div className="CompanyList-list">
-      {companies.map(company => <CompanyCard company={company}/>)}
+      {companies.map(company => <CompanyCard company={company} currentUser={currentUser}/>)}
       </div>
     </div>
   );
