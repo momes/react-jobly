@@ -20,6 +20,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoadingApp, setIsLoadingApp] = useState(false);
 
+  //setCurrentUser("test");
+
   function getUser(username) {
     //use token to get user obj
     setCurrentUser(username);
