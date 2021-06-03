@@ -25,7 +25,7 @@ import ProfileForm from "./ProfileForm";
  *  *            -> SignUpForm
  * 
  */
-function Routes({ currentUser, addJobApp, authenticateUser}) {
+function Routes({ currentUser, addJobApp, authenticateUser, registerUser}) {
   console.log("routes thinks current user is", currentUser);
 
   return (
@@ -57,7 +57,7 @@ function Routes({ currentUser, addJobApp, authenticateUser}) {
           <LoginForm authenticateUser={authenticateUser}/>
         </Route>
         <Route exact path="/signup">
-          <SignUpForm />
+          <SignUpForm registerUser={registerUser}/>
         </Route>
         <Redirect to="/" />
       </Switch>

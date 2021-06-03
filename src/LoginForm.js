@@ -4,28 +4,12 @@ import JoblyApi from './api';
 import { useState, useEffect } from "react";
 import Error from "./Error";
 
-function LoginForm({ updateCurrentUser, storeToken, authenticateUser }) {
+function LoginForm({ authenticateUser }) {
 
   const [tryLogin, setTryLogin] = useState(false);
   const [loginFormData, setLoginFormData] = useState({ username: "", password: "" })
   const [errors, setErrors] = useState(null);
   //const [loginAlert, setLoginAlert] = useState("");
-
-  // useEffect(function authUserOrError() {
-  //   async function authUser() {
-  //     try {
-  //       console.log("effect thinks login data is", loginFormData);
-  //       let token = await JoblyApi.logInUser({username: loginFormData.username, password: loginFormData.password});
-  //       storeToken(token);
-  //       updateCurrentUser(loginFormData.username);
-  //       setTryLogin(false);
-  //     } catch (err) {
-  //       setErrors(err);
-  //       setTryLogin(false);
-  //     }
-  //   }
-  //   if (tryLogin) authUser();
-  // }, [tryLogin])
 
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -42,14 +26,18 @@ function LoginForm({ updateCurrentUser, storeToken, authenticateUser }) {
     <div className="LoginForm">
       LoginForm!
       <form onSubmit={handleSubmit}>
+      <label htmlFor="LoginForm-username">Username</label>
         <input
+          id="LoginForm-username"
           name="username"
           type="text"
           onChange={handleChange}
           value={loginFormData.username}
           required
         />
+      <label htmlFor="LoginForm-password">Password</label>
         <input
+          id="LoginForm-password"
           name="password"
           type="password"
           onChange={handleChange}
