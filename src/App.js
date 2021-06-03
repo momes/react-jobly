@@ -14,85 +14,68 @@ import Error from './Error';
  * 
  * State:
  * - currentUser: {}
+ * - authenticatedUsername ""
+ * - token ""
  * - isLoadingApp: boolean
- * - setErrors: []
+ * - errors: []
  * 
  * App --> NavigationBar, Routes
  */
 function App() {
+  //TODO change isloadingapp name, its loading/fetching user
+  //TODO change errors, setErrors name
   const [currentUser, setCurrentUser] = useState(null);
-  const [loginFormData, setLoginFormData] = useState(null);
-  const [signUpFormData, setSignUpFormData] = useState(null);
   const [authenticatedUsername, setAuthenticatedUsername] = useState(null);
   const [isLoadingApp, setIsLoadingApp] = useState(false);
   const [token, setToken] = useState(null);
   const [errors, setErrors] = useState(null);
 
+  async function logIn(loginFormData) {
+    let token = await JoblyApi.logInUser(
+      {
+        username: loginFormData.username,
+        password: loginFormData.password
+      });
+    JoblyApi.token = token;
+    console.log("logIn() successful -> fetching user")
+    setToken(token);
+    setAuthenticatedUsername(loginFormData.username);
+  }
 
-  useEffect(function authUserOrError() {
-    async function authUser() {
-      try {
-        if (loginFormData) {
-          console.log("effect thinks login data is", loginFormData);
-          let token = await JoblyApi.logInUser({ username: loginFormData.username, password: loginFormData.password });
-          setToken(token);
-          JoblyApi.token = token;
-          setAuthenticatedUsername(loginFormData.username);
-          setLoginFormData(null);
-        }
-        else if (signUpFormData) {
-          console.log("effect thinks signup data is", signUpFormData);
-          let token = await JoblyApi.signUpUser(signUpFormData);
-          setToken(token);
-          JoblyApi.token = token;
-          setAuthenticatedUsername(signUpFormData.username);
-          setSignUpFormData(null);
-        }
-      } catch (err) {
-        setErrors(err);
-        setSignUpFormData(null);
-      }
-    }
-    if (loginFormData || signUpFormData) authUser();
-  }, [loginFormData, signUpFormData]);
-
+  async function signUp(signUpFormData) {
+    let token = await JoblyApi.signUpUser(signUpFormData);
+    JoblyApi.token = token;
+    setToken(token);
+    setAuthenticatedUsername(signUpFormData.username);
+    console.log("signUp() successful -> fetching user")
+  }
 
   useEffect(function setCurrentUserOrError() {
-    console.log("app component effect ran");
+    console.log("fetching current user");
     async function fetchUser() {
       try {
-        //let user = await JoblyApi.getUser('testuser');
         console.log("authenticated username is", authenticatedUsername);
         setIsLoadingApp(true);
         let user = await JoblyApi.getUser(authenticatedUsername);
+        //jwt.decode
         console.log("got below get user API call");
         setCurrentUser(user);
         setIsLoadingApp(false);
-        //setAuthenticatedUsername(null);
       } catch (err) {
-        //console.log("err is", err);
         setErrors(err);
         setIsLoadingApp(false);
         setAuthenticatedUsername(null);
       }
     }
-    if (authenticatedUsername) {
+    if (token) {
       fetchUser();
     }
   }, [token, authenticatedUsername]);
 
-
-  function authenticateUser(formData) {
-    setLoginFormData(formData);
-  }
-
-  function registerUser(formData){
-    console.log("register user thinks data is", formData);
-    setSignUpFormData(formData);
-  }
-
-  function updateCurrentUser(username) {
-    //setUsername(username);
+  function logOut() {
+    setToken(null);
+    setAuthenticatedUsername(null);
+    setCurrentUser(null);
   }
 
   function updateUserAfterJobApp(jobId) {
@@ -103,21 +86,27 @@ function App() {
   }
 
   console.log("app thinks current user is", currentUser);
+
+  if (isLoadingApp) {
+    return (<div>Loading...</div>)
+  }
+
   return (
-    <div>
-      {errors && errors.map(e => <Error error={e} />)}
-      {!isLoadingApp && (<div className="App">
-        <BrowserRouter>
-          <NavigationBar currentUser={currentUser} />
-          <Routes currentUser={currentUser}
-            addJobApp={updateUserAfterJobApp}
-            authenticateUser={authenticateUser}
-            registerUser={registerUser}
-          />
-        </BrowserRouter>
-      </div>)}
+    <div className="App">
+      <BrowserRouter>
+        <NavigationBar currentUser={currentUser} logOut={logOut} />
+
+        {errors && errors.map(e => <Error error={e} />)}
+
+        <Routes currentUser={currentUser}
+          addJobApp={updateUserAfterJobApp}
+          logIn={logIn}
+          signUp={signUp}
+        />
+      </BrowserRouter>
     </div>
   );
 }
 
 export default App;
+

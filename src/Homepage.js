@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 /**Homepage Component
  * 
@@ -17,7 +18,10 @@ console.log("homepage thinks current user is", currentUser);
       <p>All the jobs in one convenient place</p>
       {currentUser
         ? <h2>Welcome Back, {currentUser.firstName}.</h2>
-        : (<p>login & sign up buttons go here</p>)}
+        : (<div>
+          <Link to="/login"><Button>Log In</Button></Link> 
+          <Link to="/signup"><Button>Sign In</Button></Link>
+          </div>)}
     </div>
   );
 }

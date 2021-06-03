@@ -1,7 +1,4 @@
-import { NavLink } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import JoblyApi from './api';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Error from "./Error";
 
 const initialSignUpFormData = {
@@ -12,22 +9,39 @@ const initialSignUpFormData = {
   email: ""
 }
 
-function SignUpForm({ registerUser }) {
-
-  //const [trySignUp, setTrySignUp] = useState(false);
+/** SignUpForm Component
+ * 
+ * Props: 
+ * - signUp()
+ * 
+ * State:
+ * - signUpFormData: {}
+ * - errors: null or []
+ * 
+ * Routes -> LoginForm
+ */
+function SignUpForm({ signUp }) {
   const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData);
   const [errors, setErrors] = useState(null);
-  //const [signUpAlert, setsignUpAlert] = useState("");
 
   function handleChange(evt) {
     const { name, value } = evt.target;
     setSignUpFormData(currData => ({ ...currData, [name]: value }));
   }
 
+  //TODO handleSubmit can be async don't need wrapper
   function handleSubmit(evt) {
+    async function signUpOrShowError() {
+      console.log("submit thinks loginformdata is", signUpFormData);
+      try {
+        await signUp(signUpFormData);
+      } catch (err) {
+        console.log("ERROR at handleSubmit->SignUp")
+        setErrors(err);
+      }
+    }
     evt.preventDefault();
-    console.log("submit thinks signUpformdata is", signUpFormData);
-    registerUser(signUpFormData);
+    signUpOrShowError();
   }
 
   return (

@@ -1,32 +1,47 @@
-import { NavLink } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import JoblyApi from './api';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Error from "./Error";
 
-function LoginForm({ authenticateUser }) {
-
-  const [tryLogin, setTryLogin] = useState(false);
+/** LoginForm Component
+ * 
+ * Props: 
+ * - logIn()
+ * 
+ * State:
+ * - loginFormData: {}
+ * - errors: null or []
+ * 
+ * Routes -> LoginForm
+ */
+function LoginForm({ logIn }) {
   const [loginFormData, setLoginFormData] = useState({ username: "", password: "" })
   const [errors, setErrors] = useState(null);
-  //const [loginAlert, setLoginAlert] = useState("");
 
   function handleChange(evt) {
     const { name, value } = evt.target;
     setLoginFormData(currData => ({ ...currData, [name]: value }));
   }
 
+
+  // TODO handleSubmit can be async
   function handleSubmit(evt) {
+    async function logInOrShowError() {
+      console.log("submit thinks loginformdata is", loginFormData);
+      try {
+        await logIn(loginFormData);
+      } catch (err) {
+        console.log("ERROR at handleSubmit->logIn")
+        setErrors(err);
+      }
+    }
     evt.preventDefault();
-    console.log("submit thinks loginformdata is", loginFormData);
-    authenticateUser(loginFormData);
+    logInOrShowError();
   }
 
   return (
     <div className="LoginForm">
       LoginForm!
       <form onSubmit={handleSubmit}>
-      <label htmlFor="LoginForm-username">Username</label>
+        <label htmlFor="LoginForm-username">Username</label>
         <input
           id="LoginForm-username"
           name="username"
@@ -35,7 +50,7 @@ function LoginForm({ authenticateUser }) {
           value={loginFormData.username}
           required
         />
-      <label htmlFor="LoginForm-password">Password</label>
+        <label htmlFor="LoginForm-password">Password</label>
         <input
           id="LoginForm-password"
           name="password"

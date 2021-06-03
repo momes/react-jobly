@@ -25,9 +25,12 @@ import ProfileForm from "./ProfileForm";
  *  *            -> SignUpForm
  * 
  */
-function Routes({ currentUser, addJobApp, authenticateUser, registerUser}) {
+function Routes({ currentUser, addJobApp, logIn, signUp}) {
   console.log("routes thinks current user is", currentUser);
 
+  //TODO if not logged in /companies redirect to signup
+  // if /foo redirect to homepage
+  //use a private route component
   return (
     <>
       {currentUser && <Switch>
@@ -54,10 +57,10 @@ function Routes({ currentUser, addJobApp, authenticateUser, registerUser}) {
           <Homepage currentUser={currentUser} />
         </Route>
         <Route exact path="/login">
-          <LoginForm authenticateUser={authenticateUser}/>
+          <LoginForm logIn={logIn}/>
         </Route>
         <Route exact path="/signup">
-          <SignUpForm registerUser={registerUser}/>
+          <SignUpForm signUp={signUp}/>
         </Route>
         <Redirect to="/" />
       </Switch>
