@@ -34,26 +34,40 @@ class JoblyApi {
 
   // Individual API routes
 
-  /** Get all companies. */
+ /** Get all companies.  "searchTerm" => [companies]
+   * 
+   * returns [ { handle, name, description, numEmployees, logoUrl }, ...]
+  */
 
-  static async getCompanies(q) {
-    if (q === "") {
+  static async getCompanies(searchTerm) {
+    if (searchTerm === "") {
       let res = await this.request(`companies`);
       return res.companies;
     }
 
-    let res = await this.request(`companies`, { "name": q });
+    let res = await this.request(`companies`, { "name": searchTerm });
     return res.companies;
   }
 
-  /** Get details on a company by handle. */
+  /** Get details on a company by handle. "handle" => {company}
+   * 
+   * returns { handle, 
+   *           name, 
+   *           description,
+   *           numEmployees, 
+   *           logoUrl, 
+   *           jobs: [{ id, title, salary, equity }, ...] }
+   */
 
   static async getCompany(handle) {
     let res = await this.request(`companies/${handle}`);
     return res.company;
   }
 
-  /** Get all jobs. */
+   /** Get all jobs. "searchTerm" => [jobs] 
+   * 
+   * returns [ { id, title, salary, equity, companyHandle, companyName }, ...]
+  */
 
   static async getJobs(searchTerm) {
 
@@ -67,28 +81,41 @@ class JoblyApi {
 
   }
 
-  /** Get user. */
+  /** Get user.  "username" => {user}
+   * 
+   * Returns { username, firstName, lastName, isAdmin, jobs }
+   * where jobs is { id, title, companyHandle, companyName, state }
+  */
+
 
   static async getUser(username) {
     let res = await this.request(`users/${username}`);
     return res.user;
   }
 
-  /** Log in user. */
+  /** Log in user. {username, password} => "token" */
 
   static async logInUser({ username, password }) {
     let res = await this.request(`auth/token`, { username, password }, "post");
     return res.token;
   }
 
-  /** Signup user. */
+  /** Signup user.  user {}  => "token"
+   * 
+   * where user object is { username, password, firstName, lastName, email }
+  */
+
 
   static async signUpUser(user) {
     let res = await this.request(`auth/register`, user, "post");
     return res.token;
   }
 
-  /** Apply to Job. */
+  /** Apply to Job. 
+   * 
+   * ("username", jobId) => {applied: jobId}
+  */
+
 
   static async applyToJob(username, jobId) {
     let res = await this.request(`users/${username}/jobs/${jobId}`, {}, "post");
