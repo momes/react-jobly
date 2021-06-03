@@ -25,7 +25,7 @@ import ProfileForm from "./ProfileForm";
  *  *            -> SignUpForm
  * 
  */
-function Routes({ currentUser, addJobApp }) {
+function Routes({ currentUser, addJobApp, authenticateUser}) {
   console.log("routes thinks current user is", currentUser);
 
   return (
@@ -54,7 +54,7 @@ function Routes({ currentUser, addJobApp }) {
           <Homepage currentUser={currentUser} />
         </Route>
         <Route exact path="/login">
-          <LoginForm />
+          <LoginForm authenticateUser={authenticateUser}/>
         </Route>
         <Route exact path="/signup">
           <SignUpForm />

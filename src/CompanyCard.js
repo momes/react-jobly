@@ -16,7 +16,7 @@ function CompanyCard({ company }) {
 
   return (
     <div className="CompanyCard">
-      <Link exact to={`/companies/${handle}`} style={{ textDecoration: "none" }}>
+      <Link to={`/companies/${handle}`} style={{ textDecoration: "none" }}>
         <Card className="CompanyCard-card">
           <Card.Title className="justify-content-between text-left">
             <b>{name}</b>
