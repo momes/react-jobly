@@ -62,6 +62,15 @@ function Routes({ currentUser, addJobApp, logIn, signUp}) {
         <Route exact path="/signup">
           <SignUpForm signUp={signUp}/>
         </Route>
+        <Route path="/companies">
+          <Redirect to="/login" />
+        </Route>
+        <Route path="/jobs">
+          <Redirect to="/login" />
+        </Route>
+        <Route path="/profile">
+          <Redirect to="/login" />
+        </Route>
         <Redirect to="/" />
       </Switch>
       }

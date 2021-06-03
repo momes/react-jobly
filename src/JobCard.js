@@ -24,12 +24,13 @@ function JobCard({ currentUser, job, addJobApp }) {
 
   const [isLoadingJobCard, setIsLoadingJobCard] = useState(true);
   //use currentUser.applications to set hasApplied state default
-  const [hasApplied, setHasApplied] = useState();
+  const [hasApplied, setHasApplied] = useState(currentUser.applications.includes());
   //change name isSubmitted?
   const [submittedApplication, setSubmittedApplication] = useState(false);
   const [errors, setErrors] = useState([]);
 
   console.log("Jobcard component rendered");
+  console.log("current user apps are", currentUser.applicationSet);
   //const { username, applications } = currentUser;
   //console.log("Jobcard component cur user applications --->", currentUser.applications.includes(job.id));
 

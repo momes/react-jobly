@@ -1,5 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { decodeToken } from "react-jwt";
+import { reactLocalStorage } from "reactjs-localstorage";
 import { BrowserRouter } from "react-router-dom";
 import { useState, useEffect } from "react";
 import NavigationBar from './NavigationBar';
@@ -14,21 +16,18 @@ import Error from './Error';
  * 
  * State:
  * - currentUser: {}
- * - authenticatedUsername ""
  * - token ""
- * - isLoadingApp: boolean
- * - errors: []
+ * - isLoadingUser: boolean
+ * - fetchUserErrors: []
  * 
  * App --> NavigationBar, Routes
  */
 function App() {
-  //TODO change isloadingapp name, its loading/fetching user
-  //TODO change errors, setErrors name
+
   const [currentUser, setCurrentUser] = useState(null);
-  const [authenticatedUsername, setAuthenticatedUsername] = useState(null);
-  const [isLoadingApp, setIsLoadingApp] = useState(false);
-  const [token, setToken] = useState(null);
-  const [errors, setErrors] = useState(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(false);
+  const [token, setToken] = useState(reactLocalStorage.get("token"));
+  const [fetchUserErrors, setFetchUserErrors] = useState(null);
 
   async function logIn(loginFormData) {
     let token = await JoblyApi.logInUser(
@@ -37,16 +36,15 @@ function App() {
         password: loginFormData.password
       });
     JoblyApi.token = token;
+    reactLocalStorage.set('token', token);
     console.log("logIn() successful -> fetching user")
     setToken(token);
-    setAuthenticatedUsername(loginFormData.username);
   }
 
   async function signUp(signUpFormData) {
     let token = await JoblyApi.signUpUser(signUpFormData);
     JoblyApi.token = token;
     setToken(token);
-    setAuthenticatedUsername(signUpFormData.username);
     console.log("signUp() successful -> fetching user")
   }
 
@@ -54,28 +52,29 @@ function App() {
     console.log("fetching current user");
     async function fetchUser() {
       try {
-        console.log("authenticated username is", authenticatedUsername);
-        setIsLoadingApp(true);
-        let user = await JoblyApi.getUser(authenticatedUsername);
-        //jwt.decode
+        JoblyApi.token = token;
+        setIsLoadingUser(true);
+        const username = decodeToken(token).username;
+        console.log("console log things token is", reactLocalStorage.get("token"));
+        let user = await JoblyApi.getUser(username);
         console.log("got below get user API call");
-        setCurrentUser(user);
-        setIsLoadingApp(false);
+        setCurrentUser({...user, applicationSet: new Set(user.applications)});
+        setIsLoadingUser(false);
+        setFetchUserErrors(null);
       } catch (err) {
-        setErrors(err);
-        setIsLoadingApp(false);
-        setAuthenticatedUsername(null);
+        setFetchUserErrors(err);
+        setIsLoadingUser(false);
       }
     }
     if (token) {
       fetchUser();
     }
-  }, [token, authenticatedUsername]);
+  }, [token]);
 
   function logOut() {
     setToken(null);
-    setAuthenticatedUsername(null);
     setCurrentUser(null);
+    reactLocalStorage.clear();
   }
 
   function updateUserAfterJobApp(jobId) {
@@ -87,7 +86,7 @@ function App() {
 
   console.log("app thinks current user is", currentUser);
 
-  if (isLoadingApp) {
+  if (isLoadingUser) {
     return (<div>Loading...</div>)
   }
 
@@ -96,7 +95,7 @@ function App() {
       <BrowserRouter>
         <NavigationBar currentUser={currentUser} logOut={logOut} />
 
-        {errors && errors.map(e => <Error error={e} />)}
+        {fetchUserErrors && fetchUserErrors.map(e => <Error error={e} />)}
 
         <Routes currentUser={currentUser}
           addJobApp={updateUserAfterJobApp}

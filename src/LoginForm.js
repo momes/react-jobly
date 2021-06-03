@@ -21,20 +21,13 @@ function LoginForm({ logIn }) {
     setLoginFormData(currData => ({ ...currData, [name]: value }));
   }
 
-
-  // TODO handleSubmit can be async
-  function handleSubmit(evt) {
-    async function logInOrShowError() {
-      console.log("submit thinks loginformdata is", loginFormData);
-      try {
-        await logIn(loginFormData);
-      } catch (err) {
-        console.log("ERROR at handleSubmit->logIn")
-        setErrors(err);
-      }
-    }
+  async function handleSubmit(evt) {
     evt.preventDefault();
-    logInOrShowError();
+    try {
+      await logIn(loginFormData);
+    } catch (err) {
+      setErrors(err);
+    }
   }
 
   return (

@@ -29,19 +29,15 @@ function SignUpForm({ signUp }) {
     setSignUpFormData(currData => ({ ...currData, [name]: value }));
   }
 
-  //TODO handleSubmit can be async don't need wrapper
-  function handleSubmit(evt) {
-    async function signUpOrShowError() {
-      console.log("submit thinks loginformdata is", signUpFormData);
-      try {
-        await signUp(signUpFormData);
-      } catch (err) {
-        console.log("ERROR at handleSubmit->SignUp")
-        setErrors(err);
-      }
-    }
+  async function handleSubmit(evt) {
     evt.preventDefault();
-    signUpOrShowError();
+    console.log("submit thinks loginformdata is", signUpFormData);
+    try {
+      await signUp(signUpFormData);
+    } catch (err) {
+      console.log("ERROR at handleSubmit->SignUp")
+      setErrors(err);
+    }
   }
 
   return (

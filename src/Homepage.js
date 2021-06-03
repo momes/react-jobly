@@ -20,7 +20,7 @@ console.log("homepage thinks current user is", currentUser);
         ? <h2>Welcome Back, {currentUser.firstName}.</h2>
         : (<div>
           <Link to="/login"><Button>Log In</Button></Link> 
-          <Link to="/signup"><Button>Sign In</Button></Link>
+          <Link to="/signup"><Button>Sign Up</Button></Link>
           </div>)}
     </div>
   );
