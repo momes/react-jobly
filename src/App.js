@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { decodeToken } from "react-jwt";
-import { reactLocalStorage } from "reactjs-localstorage";
+import { decode } from "jsonwebtoken";
 import { BrowserRouter } from "react-router-dom";
 import { useState, useEffect } from "react";
 import NavigationBar from './NavigationBar';
@@ -25,8 +24,8 @@ import Error from './Error';
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(false);
-  const [token, setToken] = useState(reactLocalStorage.get("token"));
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const [token, setToken] = useState(window.localStorage.token);
   const [fetchUserErrors, setFetchUserErrors] = useState(null);
 
   console.log("app rerendered");
@@ -38,7 +37,7 @@ function App() {
         password: loginFormData.password
       });
     JoblyApi.token = token;
-    reactLocalStorage.set('token', token);
+    window.localStorage.setItem('token', token); //could replace this to use =
     console.log("logIn() successful -> fetching user")
     setToken(token);
   }
@@ -55,16 +54,14 @@ function App() {
     async function fetchUser() {
       try {
         JoblyApi.token = token;
-        setIsLoadingUser(true);
-        const username = decodeToken(token).username;
-        console.log("console log things token is", reactLocalStorage.get("token"));
+        const { username } = decode(token);
         let user = await JoblyApi.getUser(username);
         console.log("got below get user API call");
-        setCurrentUser({ ...user, applications: new Set(user.applications) });
-        setIsLoadingUser(false);
+        setCurrentUser({ ...user, applications: new Set(user.applications) }); // TODO update set name
         setFetchUserErrors(null);
       } catch (err) {
         setFetchUserErrors(err);
+      } finally { //runs regardless of result in the try/catch
         setIsLoadingUser(false);
       }
     }
@@ -76,19 +73,19 @@ function App() {
   function logOut() {
     setToken(null);
     setCurrentUser(null);
-    reactLocalStorage.clear();
+    window.localStorage.clear(); //TODO can switch to removeItem for the token instead of clear
   }
 
   function updateUserAfterJobApp(jobId) {
-    //let applicationCopy = currentUser.applications.add(jobId);
-    //applications.add(jobId);
-    setCurrentUser(currUser => ({ ...currUser, applications: currUser.applications.add(jobId) }));
+    setCurrentUser(currUser => ({
+      ...currUser,
+      applications: currUser.applications.add(
+        jobId)
+    }));
   }
 
-  console.log("app thinks current user is", currentUser);
-
   if (isLoadingUser) {
-    return (<div>Loading...</div>)
+    return <div>Loading...</div>
   }
 
   return (

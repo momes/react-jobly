@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import './CompanyCard.css';
 import JoblyApi from "./api";
 import './JobCard.css'
+import Error from "./Error";
 
 /** JobCard Component
  * 
@@ -14,29 +14,19 @@ import './JobCard.css'
  * - addJobApp()
  * 
  * State:
- * - isLoadingJobCard: boolean
+ * - isLoadingJobCard: boolean (unsure if we need this???)
  * - hasApplied: boolean
- * - submittedApplication: boolean
+ * - isSubmittingApplication: boolean
  * - errors: null or []
  * 
  * JobList -> JobCard
  */
 function JobCard({ currentUser, job, addJobApp, showCompany }) {
 
-  const [isLoadingJobCard, setIsLoadingJobCard] = useState(true);
+  //const [isLoadingJobCard, setIsLoadingJobCard] = useState(true);
   const [hasApplied, setHasApplied] = useState(currentUser.applications.has(job.id));
   const [isSubmittingApplication, setIsSubmittingApplication] = useState(false);
-  const [errors, setErrors] = useState([]);
-
-  // useEffect(function () {
-  //   function checkIfAppliedAfterRender() {
-  //     if (currentUser.applications.includes(job.id)) {
-  //       setHasApplied(true);
-  //     }
-  //   }
-  //   checkIfAppliedAfterRender();
-  // }, [isSubmittingApplication]);
-
+  const [errors, setErrors] = useState(null);
 
   useEffect(function () {
     async function applyToJob() {
@@ -63,6 +53,7 @@ function JobCard({ currentUser, job, addJobApp, showCompany }) {
 
   return (
     <Card className="JobCard">
+        {errors && errors.map(e => <Error error={e} />)}
       <Card.Title className="justify-content-between text-left">
         <b>{job.title}</b>
         {showCompany && <h5>{job.companyName}</h5>}

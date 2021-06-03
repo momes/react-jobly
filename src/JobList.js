@@ -19,6 +19,8 @@ import Error from "./Error";
  *                   -> JobCard
  */
 function JobList({ currentUser, addJobApp }) {
+
+  console.log("joblist rendered");
   const [isLoadingJobList, setIsLoadingJobList] = useState(true);
   const [jobs, setJobs] = useState([]);
   const [errors, setErrors] = useState(null);
@@ -48,7 +50,7 @@ function JobList({ currentUser, addJobApp }) {
 
   if (isLoadingJobList) {
     return (
-      <h2>Loading</h2>
+      <h2>Loading...</h2>
     )
   }
 

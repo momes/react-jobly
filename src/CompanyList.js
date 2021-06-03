@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import JoblyApi from "./api";
 import SearchBar from "./SearchBar";
@@ -58,7 +57,8 @@ function CompanyList({currentUser}) {
       {companies.length > 0
         ? companies.map(company => 
             <CompanyCard company={company} 
-                         currentUser={currentUser}/>)
+                         currentUser={currentUser}
+                         key={company.handle}/>)
         : <p>No results found.</p>}
     </div>
   </div>

@@ -57,6 +57,7 @@ function CompanyDetail({ currentUser, addJobApp }) {
         currentUser={currentUser}
         job={job}
         addJobApp={addJobApp}
+        showCompany={false}
       />)}
     </div>
   );

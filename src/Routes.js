@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import Homepage from "./Homepage";
 import CompanyList from "./CompanyList";
@@ -15,6 +14,8 @@ import ProfileForm from "./ProfileForm";
  * Props:
  * - currentUser {}
  * - addJobApp()
+ * - logIn ()
+ * - signUp ()
  * 
  * App -> Routes -> Homepage
  *               -> CompanyList

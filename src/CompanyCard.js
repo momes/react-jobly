@@ -20,7 +20,7 @@ function CompanyCard({ company }) {
         <Card className="CompanyCard-card">
           <Card.Title className="justify-content-between text-left">
             <b>{name}</b>
-            {logoUrl && <img className="CompanyCard-logo" src={logoUrl} />}
+            {logoUrl && <img className="CompanyCard-logo" src={logoUrl} alt={handle} />}
           </Card.Title>
           <Card.Body className="text-left">
             <p>{description}</p>
