@@ -29,6 +29,8 @@ function App() {
   const [token, setToken] = useState(reactLocalStorage.get("token"));
   const [fetchUserErrors, setFetchUserErrors] = useState(null);
 
+  console.log("app rerendered");
+
   async function logIn(loginFormData) {
     let token = await JoblyApi.logInUser(
       {
@@ -58,7 +60,7 @@ function App() {
         console.log("console log things token is", reactLocalStorage.get("token"));
         let user = await JoblyApi.getUser(username);
         console.log("got below get user API call");
-        setCurrentUser({...user, applicationSet: new Set(user.applications)});
+        setCurrentUser({ ...user, applications: new Set(user.applications) });
         setIsLoadingUser(false);
         setFetchUserErrors(null);
       } catch (err) {
@@ -78,10 +80,9 @@ function App() {
   }
 
   function updateUserAfterJobApp(jobId) {
-    //currentUser.applications.push(jobId);
-    let applicationCopy = currentUser.applications.slice();
-    //let currentUserCopy = {...currentUser};
-    setCurrentUser(CurrUser => ({ ...currentUser, applications: applicationCopy }));
+    //let applicationCopy = currentUser.applications.add(jobId);
+    //applications.add(jobId);
+    setCurrentUser(currUser => ({ ...currUser, applications: currUser.applications.add(jobId) }));
   }
 
   console.log("app thinks current user is", currentUser);

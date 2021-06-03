@@ -8,6 +8,7 @@ import './JobCard.css'
 /** JobCard Component
  * 
  * Props:
+ * - showCompany: boolean
  * - currentUser {}
  * - job {}
  * - addJobApp()
@@ -20,68 +21,62 @@ import './JobCard.css'
  * 
  * JobList -> JobCard
  */
-function JobCard({ currentUser, job, addJobApp }) {
+function JobCard({ currentUser, job, addJobApp, showCompany }) {
 
   const [isLoadingJobCard, setIsLoadingJobCard] = useState(true);
-  //use currentUser.applications to set hasApplied state default
-  const [hasApplied, setHasApplied] = useState(currentUser.applications.includes());
-  //change name isSubmitted?
-  const [submittedApplication, setSubmittedApplication] = useState(false);
+  const [hasApplied, setHasApplied] = useState(currentUser.applications.has(job.id));
+  const [isSubmittingApplication, setIsSubmittingApplication] = useState(false);
   const [errors, setErrors] = useState([]);
 
-  console.log("Jobcard component rendered");
-  console.log("current user apps are", currentUser.applicationSet);
-  //const { username, applications } = currentUser;
-  //console.log("Jobcard component cur user applications --->", currentUser.applications.includes(job.id));
-
-  useEffect(function () {
-    function checkIfAppliedAfterRender() {
-      if (currentUser.applications.includes(job.id)) {
-        setHasApplied(true);
-      }
-    }
-    checkIfAppliedAfterRender();
-  }, [submittedApplication]);
+  // useEffect(function () {
+  //   function checkIfAppliedAfterRender() {
+  //     if (currentUser.applications.includes(job.id)) {
+  //       setHasApplied(true);
+  //     }
+  //   }
+  //   checkIfAppliedAfterRender();
+  // }, [isSubmittingApplication]);
 
 
   useEffect(function () {
     async function applyToJob() {
-      if (submittedApplication) {
+      if (isSubmittingApplication) {
         try {
-          //console.log("username,jobid", currentUser.username, job.id)
           let applyResult = await JoblyApi.applyToJob(currentUser.username, job.id);
           addJobApp(job.id);
-          //setHasApplied(true);
+          setIsSubmittingApplication(false);
+          setHasApplied(true);
           console.log("applied to job---->", applyResult);
         } catch (err) {
           console.log("error occurred", err);
           setErrors(err);
-          setSubmittedApplication(false);
+          setIsSubmittingApplication(false);
         }
       }
     }
     applyToJob();
-  }, [setSubmittedApplication]);
+  }, [isSubmittingApplication]);
 
   function handleApply(evt) {
-    setSubmittedApplication(true);
+    setIsSubmittingApplication(true);
   }
 
   return (
-      <Card className="JobCard">
-        <Card.Title className="justify-content-between text-left">
-          <b>{job.title}</b>
-        </Card.Title>
-        <Card.Body className="text-left">
-            <p>Salary: {job.salary}</p>
-            <p>Equity: {job.equity}</p>
-          <div className="JobCard-button">
-            {hasApplied 
-              ? <Button disabled>Applied</Button> 
-              : <Button onClick={handleApply}>Apply</Button>}
-          </div>
-        </Card.Body>
-      </Card>
+    <Card className="JobCard">
+      <Card.Title className="justify-content-between text-left">
+        <b>{job.title}</b>
+        {showCompany && <h5>{job.companyName}</h5>}
+      </Card.Title>
+      <Card.Body className="text-left">
+        <p>Salary: {job.salary}</p>
+        <p>Equity: {job.equity}</p>
+        <div className="JobCard-button">
+          {hasApplied
+            ? <Button disabled>Applied</Button>
+            : <Button onClick={handleApply}>Apply</Button>}
+        </div>
+      </Card.Body>
+    </Card>
   );
 
 }

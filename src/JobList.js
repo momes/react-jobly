@@ -18,7 +18,7 @@ import Error from "./Error";
  * Routes -> JobList -> SearchBar
  *                   -> JobCard
  */
-function JobList({ currentUser }) {
+function JobList({ currentUser, addJobApp }) {
   const [isLoadingJobList, setIsLoadingJobList] = useState(true);
   const [jobs, setJobs] = useState([]);
   const [errors, setErrors] = useState(null);
@@ -29,10 +29,12 @@ function JobList({ currentUser }) {
     async function fetchJobs() {
       try {
         let jobs = await JoblyApi.getJobs(searchTerm);
+        console.log("jobs is", jobs);
         setJobs(jobs);
         setIsLoadingJobList(false);
       } catch (err) {
         setErrors(err);
+        setIsLoadingJobList(false);
       }
     }
     fetchJobs();
@@ -41,6 +43,7 @@ function JobList({ currentUser }) {
   function search(searchTerm) {
     setIsLoadingJobList(true);
     setSearchTerm(searchTerm);
+    setIsLoadingJobList(false);
   }
 
   if (isLoadingJobList) {
@@ -51,12 +54,17 @@ function JobList({ currentUser }) {
 
   return (
     <div className="JobList">
-      {errors && errors.map(e => <Error error={e}/>)}
-      <SearchBar search={search} initialSearchTerm={searchTerm}/>
-      <div className="JobList-list">
-        {jobs.map(job => <JobCard key={job.id} job={job} currentUser={currentUser} />)}
+      {errors && errors.map(e => <Error error={e} />)}
+      <SearchBar search={search} initialSearchTerm={searchTerm} />
+      {jobs.length > 0
+        ? jobs.map(job => <JobCard
+                              key={job.id}
+                              job={job}
+                              currentUser={currentUser}
+                              addJobApp={addJobApp}
+                              showCompany={true} />)
+        : <p>No results found.</p>}
       </div>
-    </div>
   );
 }
 
