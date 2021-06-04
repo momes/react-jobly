@@ -1,0 +1,30 @@
+nav {
+    background-color: #2d4349;
+    color: #f6f4d2;
+    
+}
+
+.navbar-light {
+    color: #f6f4d2;
+}
+
+.navbar-brand {
+    color: #f6f4d2;
+    font-family: 'Comfortaa', cursive;
+
+}
+
+.active{
+    color: #f6f4d2;
+}
+
+h2 {
+    color: #f6f4d2;
+    line-height: 0;
+    margin-top: 10%;
+    
+}
+
+.navbar-nav {
+    color: #f6f4d2;
+}

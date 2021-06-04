@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Error from "./Error";
+import "./LoginForm.css"
+import { Form, ToggleButton } from "react-bootstrap";
 
 /** LoginForm Component
  * 
@@ -32,10 +34,10 @@ function LoginForm({ logIn }) {
 
   return (
     <div className="LoginForm">
-      LoginForm!
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="LoginForm-username">Username</label>
-        <input
+      <h3>Log in</h3>
+      <Form onSubmit={handleSubmit}>
+        <Form.Label htmlFor="LoginForm-username">Username</Form.Label>
+        <Form.Control
           id="LoginForm-username"
           name="username"
           type="text"
@@ -43,8 +45,8 @@ function LoginForm({ logIn }) {
           value={loginFormData.username}
           required
         />
-        <label htmlFor="LoginForm-password">Password</label>
-        <input
+        <Form.Label htmlFor="LoginForm-password">Password</Form.Label>
+        <Form.Control
           id="LoginForm-password"
           name="password"
           type="password"
@@ -52,8 +54,8 @@ function LoginForm({ logIn }) {
           value={loginFormData.password}
           required
         />
-        <button type="submit">Login!</button>
-      </form>
+        <button className="btn" type="submit">Login!</button>
+      </Form>
       {errors && errors.map(e => <Error error={e} />)}
     </div>
   );

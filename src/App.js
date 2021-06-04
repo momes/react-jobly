@@ -24,8 +24,8 @@ import Error from './Error';
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [token, setToken] = useState(window.localStorage.token);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [fetchUserErrors, setFetchUserErrors] = useState(null);
 
   console.log("app rerendered");
@@ -52,22 +52,22 @@ function App() {
   useEffect(function setCurrentUserOrError() {
     console.log("fetching current user");
     async function fetchUser() {
-      try {
-        JoblyApi.token = token;
-        const { username } = decode(token);
-        let user = await JoblyApi.getUser(username);
-        console.log("got below get user API call");
-        setCurrentUser({ ...user, applications: new Set(user.applications) }); // TODO update set name
-        setFetchUserErrors(null);
-      } catch (err) {
-        setFetchUserErrors(err);
-      } finally { //runs regardless of result in the try/catch
-        setIsLoadingUser(false);
+      if (token) {
+        try {
+          JoblyApi.token = token;
+          const { username } = decode(token);
+          let user = await JoblyApi.getUser(username);
+          console.log("got below get user API call");
+          setCurrentUser({ ...user, applications: new Set(user.applications) }); // TODO update set name
+          setFetchUserErrors(null);
+        } catch (err) {
+          setFetchUserErrors(err);
+        }
+
       }
+      setIsLoadingUser(false);
     }
-    if (token) {
-      fetchUser();
-    }
+    fetchUser();
   }, [token]);
 
   function logOut() {
