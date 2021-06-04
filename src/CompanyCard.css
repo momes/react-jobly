@@ -1,25 +1,22 @@
 .CompanyCard-card {
     padding: 3%;
     color: black;
-    background: rgba( 255, 255, 255, 0.60 );
-box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.096);
-backdrop-filter: blur( 16.0px );
--webkit-backdrop-filter: blur( 16.0px );
-border-radius: 10px;
-border: 1px solid rgba( 255, 255, 255, 0.18 );
+    background: rgba( 255, 255, 255);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.096);
+    backdrop-filter: blur( 16.0px );
+    -webkit-backdrop-filter: blur( 16.0px );
+    border-radius: 10px;
 }
 
 .CompanyCard {
     margin: 2%;
-    font-family: 'Open Sans', sans-serif;
-    
+    font-family: 'Comfortaa', cursive;    
 }
 
-
 .CompanyCard:hover{
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
-    box-shadow: 0 8px 32px 0 rgba(29, 6, 17, 0.514);
+    box-shadow: 10px 5px 5px rgba(37, 37, 37, 0.507);
+    color: rgb(65, 65, 153);
+    border-radius: 5px;
 }
 
 b {

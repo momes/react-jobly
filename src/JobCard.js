@@ -50,18 +50,18 @@ function JobCard({ currentUser, job, addJobApp, showCompany }) {
 
   return (
     <Card className="JobCard">
-        {errors && errors.map(e => <Error error={e} />)}
+      {errors && errors.map(e => <Error error={e} />)}
       <Card.Title className="justify-content-between text-left">
-        <b>{job.title}</b>
+        <h4>{job.title}</h4>
         {showCompany && <h5>{job.companyName}</h5>}
       </Card.Title>
       <Card.Body className="text-left">
-        <p>Salary: {job.salary}</p>
-        <p>Equity: {job.equity}</p>
+        {job.salary && <p><b>Salary:</b> {`$${job.salary}`}</p>}
+        {job.equity && <p><b>Equity:</b> {job.equity}</p>}
         <div className="JobCard-button">
           {hasApplied
-            ? <Button disabled>Applied</Button>
-            : <Button onClick={handleApply}>Apply</Button>}
+            ? <Button className="JobCard-applied" disabled>Applied</Button>
+            : <Button className="JobCard-apply" onClick={handleApply}>Apply</Button>}
         </div>
       </Card.Body>
     </Card>

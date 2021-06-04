@@ -57,17 +57,22 @@ function JobList({ currentUser, addJobApp }) {
 
   return (
     <div className="JobList">
-      {errors && errors.map(e => <Error error={e} />)}
-      <SearchBar search={search} initialSearchTerm={searchTerm} />
-      {jobs.length > 0
-        ? jobs.map(job => <JobCard
-                              key={job.id}
-                              job={job}
-                              currentUser={currentUser}
-                              addJobApp={addJobApp}
-                              showCompany={true} />)
-        : <p>No results found.</p>}
+      <div className="row">
+        <div className="col-1 col-xl-3"></div>
+        <div className="col-10 col-xl-6">
+          {errors && errors.map(e => <Error error={e} />)}
+          <SearchBar search={search} initialSearchTerm={searchTerm} />
+          {jobs.length > 0
+            ? jobs.map(job => <JobCard
+              key={job.id}
+              job={job}
+              currentUser={currentUser}
+              addJobApp={addJobApp}
+              showCompany={true} />)
+            : <p>No results found.</p>}
+        </div>
       </div>
+    </div>
   );
 }
 

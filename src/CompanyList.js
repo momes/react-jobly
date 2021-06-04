@@ -25,7 +25,6 @@ function CompanyList({ currentUser }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(function () {
-    console.log("companylist use effect")
     async function getCompanies() {
       try {
         let companies = await JoblyApi.getCompanies(searchTerm);

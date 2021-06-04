@@ -10,9 +10,9 @@ import "./ProfileForm.css";
  * - updateUserInfo()
  * 
  * State:
- * - profileFormData
- * - isSuccessful
- * - errors
+ * - profileFormData: {}
+ * - isSuccessful: boolean
+ * - errors: null or []
  * 
  * Routes --> ProfileForm
  * 
@@ -47,7 +47,6 @@ function ProfileForm({ currentUser, updateUserInfo }) {
       setIsSuccessful(false);
     }
   }
-
 
   return (
     <div className="ProfileForm">

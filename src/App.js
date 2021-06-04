@@ -14,10 +14,10 @@ import Error from './Error';
  * - none
  * 
  * State:
- * - currentUser: {}
- * - token ""
+ * - currentUser: null or {}
+ * - token: ""
  * - isLoadingUser: boolean
- * - fetchUserErrors: []
+ * - fetchUserErrors: null or []
  * 
  * App --> NavigationBar, Routes
  */
@@ -28,8 +28,6 @@ function App() {
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [fetchUserErrors, setFetchUserErrors] = useState(null);
 
-  console.log("app rerendered");
-
   async function logIn(loginFormData) {
     let token = await JoblyApi.logInUser(
       {
@@ -38,7 +36,6 @@ function App() {
       });
     JoblyApi.token = token;
     window.localStorage.setItem('token', token); //could replace this to use =
-    console.log("logIn() successful -> fetching user")
     setToken(token);
   }
 
@@ -46,18 +43,15 @@ function App() {
     let token = await JoblyApi.signUpUser(signUpFormData);
     JoblyApi.token = token;
     setToken(token);
-    console.log("signUp() successful -> fetching user")
   }
 
   useEffect(function setCurrentUserOrError() {
-    console.log("fetching current user");
     async function fetchUser() {
       if (token) {
         try {
           JoblyApi.token = token;
           const { username } = decode(token);
           let user = await JoblyApi.getUser(username);
-          console.log("got below get user API call");
           setCurrentUser({ ...user, applications: new Set(user.applications) }); // TODO update set name
           setFetchUserErrors(null);
         } catch (err) {
@@ -86,21 +80,21 @@ function App() {
 
   async function updateUserInfo(profileFormData) {
 
-  const { username, password, firstName, lastName, email } = profileFormData;
+    const { username, password, firstName, lastName, email } = profileFormData;
     let token = await JoblyApi.logInUser(
       {
         username: username,
         password: password
       });
-    let updatedUser = await JoblyApi.updateUser(username, { firstName, lastName, email, password});
-    console.log("got past both update user API calls");
-    console.log("updated user is", updatedUser);
-    setCurrentUser(currUser => ({
-      ...currUser,
-      firstName: updatedUser.firstName,
-      lastName: updatedUser.lastName,
-      email: updatedUser.email
-    }));
+    let updatedUser = await JoblyApi.updateUser(username, { firstName, lastName, email, password });
+    if (token) {
+      setCurrentUser(currUser => ({
+        ...currUser,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email
+      }));
+    }
   }
 
   if (isLoadingUser) {

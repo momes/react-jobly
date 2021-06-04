@@ -1,12 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { Navbar, Nav, Form } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import "./NavigationBar.css";
 /** NavigationBar
  * 
  * Props:
- * - currentUser {}
+ * - currentUser: {}
  * - logOut()
  * 
+ * State:
+ * - none
  * 
  * App --> NavigationBar
  */
@@ -26,9 +28,11 @@ function NavigationBar({ currentUser, logOut }) {
         <Nav.Link as={NavLink} to="/companies">Companies</Nav.Link>
         <Nav.Link as={NavLink} to="/jobs">Jobs</Nav.Link>
         <Nav.Link as={NavLink} to="/profile">Profile</Nav.Link>
-        <Form onSubmit={handleLogOut}>
-        <button type="submit" className="btn btn-link text-muted">Logout {currentUser.username}</button>
-        </Form>
+        <Nav.Link>
+        <button type="submit"
+                onClick={handleLogOut}
+                className="NavBar-logout">Logout {currentUser.username}</button>
+        </Nav.Link>
         </Nav>}
       {!currentUser && <Nav className="ml-auto">
         <Nav.Link as={NavLink} to="/login">Login</Nav.Link>

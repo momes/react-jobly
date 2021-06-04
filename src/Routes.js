@@ -16,6 +16,10 @@ import ProfileForm from "./ProfileForm";
  * - addJobApp()
  * - logIn ()
  * - signUp ()
+ * - updateUserInfo ()
+ * 
+ * State:
+ * - none
  * 
  * App -> Routes -> Homepage
  *               -> CompanyList
@@ -26,12 +30,10 @@ import ProfileForm from "./ProfileForm";
  *  *            -> SignUpForm
  * 
  */
-function Routes({ currentUser, addJobApp, logIn, signUp, updateUserInfo}) {
-  console.log("routes thinks current user is", currentUser);
+function Routes({ currentUser, addJobApp, logIn, signUp, updateUserInfo }) {
 
-  //TODO if not logged in /companies redirect to signup
-  // if /foo redirect to homepage
-  //use a private route component
+  //TODO create and utilize private route component to encapsulate route logic
+
   return (
     <>
       {currentUser && <Switch>
@@ -48,7 +50,9 @@ function Routes({ currentUser, addJobApp, logIn, signUp, updateUserInfo}) {
           <JobList currentUser={currentUser} addJobApp={addJobApp} />
         </Route>
         <Route exact path="/profile">
-          <ProfileForm currentUser={currentUser} updateUserInfo={updateUserInfo} />
+          <ProfileForm
+                      currentUser={currentUser}
+                      updateUserInfo={updateUserInfo} />
         </Route>
         <Redirect to="/" />
       </Switch>}
@@ -58,10 +62,10 @@ function Routes({ currentUser, addJobApp, logIn, signUp, updateUserInfo}) {
           <Homepage currentUser={currentUser} />
         </Route>
         <Route exact path="/login">
-          <LoginForm logIn={logIn}/>
+          <LoginForm logIn={logIn} />
         </Route>
         <Route exact path="/signup">
-          <SignUpForm signUp={signUp}/>
+          <SignUpForm signUp={signUp} />
         </Route>
         <Route path="/companies">
           <Redirect to="/login" />

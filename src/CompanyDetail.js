@@ -3,17 +3,18 @@ import { useParams } from "react-router-dom";
 import JoblyApi from "./api";
 import JobCard from "./JobCard";
 import Error from "./Error";
+import "./CompanyDetail.css";
 
 /** CompanyDetail
  * 
  * Props:
- * - currentUser {}
+ * - currentUser: {}
  * - addJobApp()
  * 
  * State:
- * - company {}
- * - isLoadingCompany boolean
- * - error null or []
+ * - company: {}
+ * - isLoadingCompany: boolean
+ * - errors: null or []
  * 
  * Routes --> CompanyDetail
  */
@@ -25,11 +26,8 @@ function CompanyDetail({ currentUser, addJobApp }) {
   const [errors, setErrors] = useState(null);
 
   const { handle } = useParams();
-  console.log("companydetail thinks param is", handle);
-  console.log("company is", company);
 
   useEffect(function setCompanyOrError() {
-    console.log("company use effect")
     async function fetchCompany() {
       try {
         let company = await JoblyApi.getCompany(handle);
@@ -51,16 +49,17 @@ function CompanyDetail({ currentUser, addJobApp }) {
   return (
     <div className="CompanyDetail">
       <div className="row">
-        <div className="col-1 col-md-4"></div>
-        <div className="col-10 col-md-4">
+        <div className="col-1 col-xl-3"></div>
+        <div className="col-10 col-xl-6">
           {errors && errors.map(e => <Error error={e} />)}
-          <h2>{company.name}</h2>
+          <h3>{company.name}</h3>
           <p>{company.description}</p>
           {company.jobs.map(job => <JobCard
             currentUser={currentUser}
             job={job}
             addJobApp={addJobApp}
             showCompany={false}
+            key={job.id}
           />)}
         </div>
         <div className="col-1 col-md-4"></div>

@@ -1,7 +1,6 @@
 nav {
     background-color: #2d4349;
     color: #f6f4d2;
-    
 }
 
 .navbar-light {
@@ -14,10 +13,6 @@ nav {
 
 }
 
-.active{
-    color: #f6f4d2;
-}
-
 h2 {
     color: #f6f4d2;
     line-height: 0;
@@ -27,4 +22,20 @@ h2 {
 
 .navbar-nav {
     color: #f6f4d2;
+}
+
+.nav-link {
+    font-family: 'Comfortaa', cursive;
+    color: #f6f4d2 !important;
+}
+
+.active{
+    color: #a44a3f !important;
+}
+
+.NavBar-logout {
+    background-color: #2d4349;
+    border: none;
+    color: #f6f4d2;
+    font-family: 'Comfortaa', cursive;
 }

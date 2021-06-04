@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Error from "./Error";
 import "./SignUpForm.css";
-import { Form, ToggleButton } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 const initialSignUpFormData = {
   username: "",
@@ -33,17 +33,18 @@ function SignUpForm({ signUp }) {
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-    console.log("submit thinks loginformdata is", signUpFormData);
     try {
       await signUp(signUpFormData);
     } catch (err) {
-      console.log("ERROR at handleSubmit->SignUp")
       setErrors(err);
     }
   }
 
   return (
     <div className="SignUpForm">
+      <div className="row">
+        <div className="col-1 col-sm-2 col-lg-4"></div>
+        <div className="col-10 col-sm-8 col-lg-4">
       <h3>Sign Up</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Label htmlFor="signUpForm-first-name">First Name</Form.Label>
@@ -51,6 +52,7 @@ function SignUpForm({ signUp }) {
           id="signUpForm-first-name"
           name="firstName"
           type="text"
+          autoComplete="first-name"
           onChange={handleChange}
           value={signUpFormData.firstName}
           required
@@ -60,6 +62,7 @@ function SignUpForm({ signUp }) {
           id="signUpForm-last-name"
           name="lastName"
           type="text"
+          autoComplete="last-name"
           onChange={handleChange}
           value={signUpFormData.lastName}
           required
@@ -69,6 +72,7 @@ function SignUpForm({ signUp }) {
           id="signUpForm-email"
           name="email"
           type="text"
+          autoComplete="email"
           onChange={handleChange}
           value={signUpFormData.email}
           required
@@ -78,6 +82,7 @@ function SignUpForm({ signUp }) {
           id="signUpForm-username"
           name="username"
           type="text"
+          autoComplete="username"
           onChange={handleChange}
           value={signUpFormData.username}
           required
@@ -87,6 +92,7 @@ function SignUpForm({ signUp }) {
           id="signUpForm-password"
           name="password"
           type="password"
+          autoComplete="current-password"
           onChange={handleChange}
           value={signUpFormData.password}
           required
@@ -94,7 +100,10 @@ function SignUpForm({ signUp }) {
         <button className="btn" type="submit">Sign Up!</button>
       </Form>
       {errors && errors.map(e => <Error error={e} />)}
-    </div>
+      </div>
+        <div className="col-1 col-sm-2 col-lg-4"></div>
+      </div>
+      </div>
   );
 }
 

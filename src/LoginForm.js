@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Error from "./Error";
 import "./LoginForm.css"
-import { Form, ToggleButton } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 /** LoginForm Component
  * 
@@ -34,29 +34,37 @@ function LoginForm({ logIn }) {
 
   return (
     <div className="LoginForm">
-      <h3>Log in</h3>
-      <Form onSubmit={handleSubmit}>
-        <Form.Label htmlFor="LoginForm-username">Username</Form.Label>
-        <Form.Control
-          id="LoginForm-username"
-          name="username"
-          type="text"
-          onChange={handleChange}
-          value={loginFormData.username}
-          required
-        />
-        <Form.Label htmlFor="LoginForm-password">Password</Form.Label>
-        <Form.Control
-          id="LoginForm-password"
-          name="password"
-          type="password"
-          onChange={handleChange}
-          value={loginFormData.password}
-          required
-        />
-        <button className="btn" type="submit">Login!</button>
-      </Form>
-      {errors && errors.map(e => <Error error={e} />)}
+      <div className="row">
+        <div className="col-1 col-sm-2 col-lg-4"></div>
+        <div className="col-10 col-sm-8 col-lg-4">
+          <h3>Log in</h3>
+          <Form onSubmit={handleSubmit}>
+            <Form.Label htmlFor="LoginForm-username">Username</Form.Label>
+            <Form.Control
+              id="LoginForm-username"
+              name="username"
+              type="text"
+              onChange={handleChange}
+              autoComplete="username"
+              value={loginFormData.username}
+              required
+            />
+            <Form.Label htmlFor="LoginForm-password">Password</Form.Label>
+            <Form.Control
+              id="LoginForm-password"
+              name="password"
+              type="password"
+              onChange={handleChange}
+              autoComplete="current-password"
+              value={loginFormData.password}
+              required
+            />
+            <button className="btn" type="submit">Login!</button>
+          </Form>
+          {errors && errors.map(e => <Error error={e} />)}
+        </div>
+        <div className="col-1 col-sm-2 col-lg-4"></div>
+      </div>
     </div>
   );
 }
