@@ -84,6 +84,25 @@ function App() {
     }));
   }
 
+  async function updateUserInfo(profileFormData) {
+
+  const { username, password, firstName, lastName, email } = profileFormData;
+    let token = await JoblyApi.logInUser(
+      {
+        username: username,
+        password: password
+      });
+    let updatedUser = await JoblyApi.updateUser(username, { firstName, lastName, email, password});
+    console.log("got past both update user API calls");
+    console.log("updated user is", updatedUser);
+    setCurrentUser(currUser => ({
+      ...currUser,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email
+    }));
+  }
+
   if (isLoadingUser) {
     return <div>Loading...</div>
   }
@@ -99,6 +118,7 @@ function App() {
           addJobApp={updateUserAfterJobApp}
           logIn={logIn}
           signUp={signUp}
+          updateUserInfo={updateUserInfo}
         />
       </BrowserRouter>
     </div>

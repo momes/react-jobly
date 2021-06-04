@@ -26,7 +26,7 @@ import ProfileForm from "./ProfileForm";
  *  *            -> SignUpForm
  * 
  */
-function Routes({ currentUser, addJobApp, logIn, signUp}) {
+function Routes({ currentUser, addJobApp, logIn, signUp, updateUserInfo}) {
   console.log("routes thinks current user is", currentUser);
 
   //TODO if not logged in /companies redirect to signup
@@ -48,7 +48,7 @@ function Routes({ currentUser, addJobApp, logIn, signUp}) {
           <JobList currentUser={currentUser} addJobApp={addJobApp} />
         </Route>
         <Route exact path="/profile">
-          <ProfileForm currentUser={currentUser} />
+          <ProfileForm currentUser={currentUser} updateUserInfo={updateUserInfo} />
         </Route>
         <Redirect to="/" />
       </Switch>}
