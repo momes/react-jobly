@@ -50,15 +50,21 @@ function CompanyDetail({ currentUser, addJobApp }) {
 
   return (
     <div className="CompanyDetail">
-      {errors && errors.map(e => <Error error={e}/>)}
-      <h2>{company.name}</h2>
-      <p>{company.description}</p>
-      {company.jobs.map(job => <JobCard
-        currentUser={currentUser}
-        job={job}
-        addJobApp={addJobApp}
-        showCompany={false}
-      />)}
+      <div className="row">
+        <div className="col-1 col-md-4"></div>
+        <div className="col-10 col-md-4">
+          {errors && errors.map(e => <Error error={e} />)}
+          <h2>{company.name}</h2>
+          <p>{company.description}</p>
+          {company.jobs.map(job => <JobCard
+            currentUser={currentUser}
+            job={job}
+            addJobApp={addJobApp}
+            showCompany={false}
+          />)}
+        </div>
+        <div className="col-1 col-md-4"></div>
+      </div>
     </div>
   );
 }

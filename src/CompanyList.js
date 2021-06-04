@@ -18,13 +18,13 @@ import Error from "./Error";
  * Routes -> CompanyList -> SearchBar
  *                       -> CompanyCard
  */
-function CompanyList({currentUser}) {
+function CompanyList({ currentUser }) {
   const [isLoadingCompanyList, setIsLoadingCompanyList] = useState(true);
   const [companies, setCompanies] = useState([]);
   const [errors, setErrors] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(function() {
+  useEffect(function () {
     console.log("companylist use effect")
     async function getCompanies() {
       try {
@@ -50,18 +50,24 @@ function CompanyList({currentUser}) {
   }
 
   return (
-  <div className="CompanyList">
-    {errors && errors.map(e => <Error error={e}/>)}
-    <SearchBar search={search} initialSearchTerm={searchTerm}/>
-    <div className="CompanyList-list">
-      {companies.length > 0
-        ? companies.map(company => 
-            <CompanyCard company={company} 
-                         currentUser={currentUser}
-                         key={company.handle}/>)
-        : <p>No results found.</p>}
+    <div className="CompanyList">
+      <div className="row">
+        <div className="col-1 col-md-2"></div>
+        <div className="col-10 col-md-8">
+          {errors && errors.map(e => <Error error={e} />)}
+          <SearchBar search={search} initialSearchTerm={searchTerm} />
+          <div className="CompanyList-list">
+            {companies.length > 0
+              ? companies.map(company =>
+                <CompanyCard company={company}
+                  currentUser={currentUser}
+                  key={company.handle} />)
+              : <p>No results found.</p>}
+          </div>
+          <div className="col-1 col-md-2"></div>
+        </div>
+      </div>
     </div>
-  </div>
   );
 }
 

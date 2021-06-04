@@ -14,7 +14,6 @@ import Error from "./Error";
  * - addJobApp()
  * 
  * State:
- * - isLoadingJobCard: boolean (unsure if we need this???)
  * - hasApplied: boolean
  * - isSubmittingApplication: boolean
  * - errors: null or []
@@ -22,8 +21,6 @@ import Error from "./Error";
  * JobList -> JobCard
  */
 function JobCard({ currentUser, job, addJobApp, showCompany }) {
-
-  //const [isLoadingJobCard, setIsLoadingJobCard] = useState(true);
   const [hasApplied, setHasApplied] = useState(currentUser.applications.has(job.id));
   const [isSubmittingApplication, setIsSubmittingApplication] = useState(false);
   const [errors, setErrors] = useState(null);

@@ -8,6 +8,7 @@ import Error from "./Error";
  * 
  * Props:
  * - currentUser {}
+ * - addJobApp()
  * 
  * State:
  * - isLoadingJobList: boolean
